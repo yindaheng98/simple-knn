@@ -6,5 +6,5 @@ K = 3
 dists = ((points.unsqueeze(0) - points.unsqueeze(1))**2).sum(-1)
 best, indices = dists.topk(K + 1, dim=1, largest=False)
 best, indices = best[:, 1:], indices[:, 1:]
-best_out, indices_out = KNN(points)
+best_out, indices_out = KNN(points, K)
 print((best - best_out).abs().max(), (indices - indices_out).abs().max())

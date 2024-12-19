@@ -11,4 +11,4 @@
 
 #include <torch/extension.h>
 
-std::tuple<torch::Tensor, torch::Tensor> KNN(const torch::Tensor& points);
+std::tuple<torch::Tensor, torch::Tensor> KNN(const torch::Tensor& points, int K);

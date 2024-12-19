@@ -13,16 +13,16 @@
 #include "simple_knn.h"
 
 std::tuple<torch::Tensor, torch::Tensor>
-KNN(const torch::Tensor& points)
+KNN(const torch::Tensor& points, int K)
 {
   const int P = points.size(0);
 
   auto int_opts = points.options().dtype(torch::kInt32);
-  torch::Tensor idx = torch::full({P, 3}, -1, int_opts);
+  torch::Tensor idx = torch::full({P, K}, -1, int_opts);
   auto float_opts = points.options().dtype(torch::kFloat32);
-  torch::Tensor dist = torch::full({P, 3}, 0.0, float_opts);
+  torch::Tensor dist = torch::full({P, K}, 0.0, float_opts);
   
-  SimpleKNN::knn(P, (float3*)points.contiguous().data<float>(), idx.contiguous().data<int>(), dist.contiguous().data<float>());
+  SimpleKNN::knn(P, K, (float3*)points.contiguous().data<float>(), idx.contiguous().data<int>(), dist.contiguous().data<float>());
 
   return std::make_tuple(dist, idx);
 }
