@@ -12,15 +12,17 @@
 #include "spatial.h"
 #include "simple_knn.h"
 
-torch::Tensor
-distCUDA2(const torch::Tensor& points)
+std::tuple<torch::Tensor, torch::Tensor>
+KNN(const torch::Tensor& points)
 {
   const int P = points.size(0);
 
+  auto int_opts = points.options().dtype(torch::kInt32);
+  torch::Tensor idx = torch::full({P, 3}, -1, int_opts);
   auto float_opts = points.options().dtype(torch::kFloat32);
-  torch::Tensor means = torch::full({P}, 0.0, float_opts);
+  torch::Tensor dist = torch::full({P, 3}, 0.0, float_opts);
   
-  SimpleKNN::knn(P, (float3*)points.contiguous().data<float>(), means.contiguous().data<float>());
+  SimpleKNN::knn(P, (float3*)points.contiguous().data<float>(), idx.contiguous().data<int>(), dist.contiguous().data<float>());
 
-  return means;
+  return std::make_tuple(dist, idx);
 }

@@ -11,4 +11,4 @@
 
 #include <torch/extension.h>
 
-torch::Tensor distCUDA2(const torch::Tensor& points);
+std::tuple<torch::Tensor, torch::Tensor> KNN(const torch::Tensor& points);
