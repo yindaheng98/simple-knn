@@ -3,7 +3,7 @@
 # GRAPHDECO research group, https://team.inria.fr/graphdeco
 # All rights reserved.
 #
-# This software is free for non-commercial, research and evaluation use 
+# This software is free for non-commercial, research and evaluation use
 # under the terms of the LICENSE.md file.
 #
 # For inquiries contact  george.drettakis@inria.fr
@@ -20,15 +20,17 @@ if os.name == 'nt':
 
 setup(
     name="simple_knn",
+    packages=["simple_knn"],
+    package_dir={'simple_knn': 'simple_knn'},
     ext_modules=[
         CUDAExtension(
             name="simple_knn._C",
             sources=[
-            "spatial.cu", 
-            "simple_knn.cu",
-            "ext.cpp"],
+                "spatial.cu",
+                "simple_knn.cu",
+                "ext.cpp"],
             extra_compile_args={"nvcc": [], "cxx": cxx_compiler_flags})
-        ],
+    ],
     cmdclass={
         'build_ext': BuildExtension
     }
